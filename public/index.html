@@ -1,0 +1,47 @@
+<html>
+
+
+
+
+    
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+
+  
+
+<header><title>Invoice List</title></header>
+<body>
+
+    <h2>Invoice List</h2>
+    
+    <p id="demo"></p>
+    
+    <script>
+    var obj, dbParam, xmlhttp, myObj, x, txt = "";
+    obj = { table: "customers", limit: 20 };
+    dbParam = JSON.stringify(obj);
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        myObj = JSON.parse(this.responseText);
+        txt += "<table border='1'>"
+            txt += "<tr><td>Fecha Emision</td><td>Emisor</td><td>Receptor</td><td>Total Neto</td></tr>";
+
+        for (x in myObj) {
+          txt += "<tr><td>" + myObj[x].fechaEmision + "</td><td>" + myObj[x].emisor.rut + "</td><td>" + myObj[x].receptor.rut + "</td><td>" + myObj[x].totalNeto + "</td></tr>";
+        }
+        txt += "</table>"    
+        document.getElementById("demo").innerHTML = txt;
+      }
+    };
+    xmlhttp.open("GET", "http://localhost:3000/api/data", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("x=" + dbParam);
+    </script>
+    
+    </body>
+</html>
